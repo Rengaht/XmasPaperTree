@@ -101,8 +101,8 @@ void playSong(){
     
     int len_=0;
     
-    switch(_song_index){
-      case 0:      
+    switch(_song_order[_song_index]){
+      case 0:         
         len_=27;
         for(int i=0;i<len_;++i){
           singleTone(int(_song_1[i]&0xF0)/16,int(_due_1[i]&0xF0)/16*_step,_rest,int(_light_1[i]&0xF0)/16);      
@@ -110,6 +110,7 @@ void playSong(){
         } 
         break;
       case 1:
+   
         len_=26;
         for(int i=0;i<len_;++i){
           singleTone(int(_song_2[i]&0xF0)/16,int(_due_2[i]&0xF0)/16*_step,_rest,int(_light_2[i]&0xF0)/16);      
@@ -123,13 +124,13 @@ void playSong(){
             singleTone(int(_song_3[i]&0x0F),int(_due_3[i]&0x0F)*_step,_rest,int(_light_3[i]&0x0F));  
         }
         break; 
-     case 3:
-        len_=55;
-        for(int i=0;i<len_;++i){
-            singleTone(int(_song_4[i]&0xF0)/16,int(_due_4[i]&0xF0)/16*_step,_rest,int(_light_4[i]&0xF0)/16);      
-            singleTone(int(_song_4[i]&0x0F),int(_due_4[i]&0x0F)*_step,_rest,int(_light_4[i]&0x0F));  
-        }
-        break;
+//     case 3:
+//        len_=55;
+//        for(int i=0;i<len_;++i){
+//            singleTone(int(_song_4[i]&0xF0)/16,int(_due_4[i]&0xF0)/16*_step,_rest,int(_light_4[i]&0xF0)/16);      
+//            singleTone(int(_song_4[i]&0x0F),int(_due_4[i]&0x0F)*_step,_rest,int(_light_4[i]&0x0F));  
+//        }
+//        break;
     }
     delay(100);
 
