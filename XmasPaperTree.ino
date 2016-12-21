@@ -9,12 +9,15 @@
 #define SENSOR_PIN 0
 
 #define MSONG 3
+
+#define WAIT_STEP 3000
 unsigned long SENSOR_DELAY=2000;
 
 int LED_PIN[]={4,3,2};
 
-int _step=200;
-int _rest=120;
+
+unsigned int _step=180;
+int _rest=10;
 int _blink=20;
 
 
@@ -28,10 +31,8 @@ unsigned char _freq[]={239,  213,  201,  190,
 
 int _sensor_stage=0; // 0: null, 1: water, 2: dry, 3:sing
 
-
-//int _sensed_time;
-//unsigned long _last_millis;
-
+int _wait_index=0;
+bool _first=true;
 
 void setup(){
 
@@ -55,21 +56,35 @@ void setup(){
 
 void loop(){
 
- 
+//  if(_first){
+//    delay(3000);
+//    _first=false;
+//  }
+//  
+//   playSong();
+//  _step=constrain(_step-20,80,240);
+//  _rest=_step/2;
 
   bool _high=(digitalRead(SENSOR_PIN)==HIGH);
 
   switch(_sensor_stage){
      case 0: //null
         if(_high){
-          _sensor_stage=1;
-          delay(SENSOR_DELAY);
+          _sensor_stage=1;          
+          setAllLight(false);
+          return;
+        }else{
+          setAllLight(true);        
         }
         break;
      case 1: //water     
         if(!_high){
           _sensor_stage=2;  
-          delay(SENSOR_DELAY);
+          setSingleLight();
+          setAllLight(false);
+          return;
+        }else{
+          setSingleLight();
         }
         break;
      case 2: //dry
@@ -80,7 +95,7 @@ void loop(){
     case 3:
         playSong();
 
-        _step=constrain(_step-10,80,240);
+        _step=constrain(_step-20,80,240);
         _rest=_step/2;
         break;
      
@@ -102,7 +117,7 @@ void shuffleSongOrder(){
     _song_order[a]=_song_order[r];
     _song_order[r]=temp;
   }
-  _song_index=0;
+  //_song_index=0;
   
 //#ifndef __AVR_ATtiny85__
 //  for(int a=0;a<MSONG;++a) Serial.print(_song_order[a]);
@@ -116,4 +131,9 @@ void shuffleSongOrder(){
 //  delay(2000);   
 //#endif
 }
+
+
+
+
+
 
